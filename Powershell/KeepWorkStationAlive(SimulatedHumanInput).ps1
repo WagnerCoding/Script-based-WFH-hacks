@@ -48,7 +48,8 @@ function Log($message) {
 while ($true) {
     $minDelay = 30  # Minimum delay in seconds
     $maxDelay = 270 # Maximum delay in seconds
-    do {
+    # Pick a count of seconds that falls within the min/max range
+	do {
        $delay = Get-Random -Minimum $minDelay -Maximum $maxDelay
        } while ($delay -eq $idleThreshold)
     $idleThreshold = $delay
@@ -66,7 +67,7 @@ while ($true) {
 
     # If idle long enough and not already marked idle
     if ($idle -ge $idleThreshold -and -not $wasIdle) {
-       	# Pick one at random
+       	# Pick one at random and make sure it is a different option from the list than the one used in the prior iteration
 	do {
 		$randomKey = Get-Random -InputObject $keys
 	} while ($randomKey -eq $lastkey)
@@ -80,3 +81,4 @@ while ($true) {
     $prevIdle = $idle
     Start-Sleep -Seconds 1
 }
+
